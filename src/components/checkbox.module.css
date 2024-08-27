@@ -1,0 +1,44 @@
+.disabled {
+	opacity: 0.3;
+}
+
+.slot {
+	display: inline-grid;
+	height: 2em;
+	width: 2em;
+}
+
+.slot > * {
+	grid-area: 1 / 1 / 2 / 2;
+	overflow: hidden;
+	user-select: none;
+	touch-action: none;
+}
+
+.slot > div {
+	box-sizing: border-box;
+	display: grid;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+}
+
+.slot > .x {
+	cursor: pointer;
+	z-index: 2;
+	color: var(--x);
+	font-size: 200%;
+	/* font-weight: bold; */
+	line-height: 1;
+}
+
+.label {
+	z-index: 1;
+	border: 0.1em solid currentColor;
+	border-radius: 0.3em;
+}
+
+.slot input {
+	appearance: none;
+}
