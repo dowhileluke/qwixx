@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import { X } from '@phosphor-icons/react'
 import { merge } from '../functions/merge'
 import classes from './checkbox.module.css'
 
@@ -20,7 +21,7 @@ export function Checkbox({ isChecked = false, isDisabled = false, label, onChang
 				{label}
 			</div>
 			<div className={classes.x}>
-				{isChecked ? 'X' : ''}
+				{isChecked && (<X weight="bold" />)}
 			</div>
 			<input
 				type="checkbox"

@@ -29,8 +29,6 @@
 	z-index: 2;
 	color: var(--x);
 	font-size: 200%;
-	/* font-weight: bold; */
-	line-height: 1;
 }
 
 .label {
@@ -40,5 +38,5 @@
 }
 
 .slot input {
-	appearance: none;
+	display: none;
 }
