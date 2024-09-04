@@ -39,36 +39,3 @@ export type UserActions = {
 	setPref: <K extends keyof Prefs>(pref: K, value: Prefs[K]) => void;
 	setColor: (index: number, color: ColorOption) => void;
 }
-
-
-
-
-
-
-
-
-export type InputState = {
-	scores: number[][];
-	skips: number[];
-	d: DieFaces;
-}
-
-export type GameActions = {
-	reset: () => void;
-	toggleCheck: (rowIndex: number, index: number) => void;
-	toggleSkip: (index: number) => void;
-}
-
-
-// export type AppState = {
-// 	isMenuOpen: boolean;
-// 	prefs: Prefs;
-// 	game: InputState;
-// }
-
-export type AppActions = {
-	resetGame: () => void;
-	toggleCheck: (rowIndex: number, boxIndex: number) => void;
-	toggleMenu: (isMenuOpen: boolean) => void;
-	setPref: <K extends keyof Prefs>(pref: K, value: Prefs[K]) => void;
-}
