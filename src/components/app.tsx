@@ -1,10 +1,10 @@
-import { GameProvider } from './game-context-provider'
+import { AppProvider } from './app-provider'
 import { Board } from './board'
 
 export function App() {
   return (
-    <GameProvider>
+    <AppProvider>
       <Board />
-    </GameProvider>
+    </AppProvider>
   )
 }
