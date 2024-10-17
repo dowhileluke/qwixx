@@ -13,10 +13,17 @@
 
   --gap: 0.25em;
   --x: black;
+
+  --text: black;
+  --body: white;
+}
+
+body, #root {
+  height: 100%;
 }
 
 body {
   margin: 0;
 
-  color: blue;
+  /* color: blue; */
 }

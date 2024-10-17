@@ -31,11 +31,31 @@ function createInitialUserState() {
 
 function createAppActions(setState: Dispatch<SetStateAction<UserState>>) {
 	const result: AppActions = {
-		resetGame() {
+		resetBoard() {
 			setState(prev => ({
 				...prev,
 				isMenuOpen: false,
 				board: createInitialBoardState(prev.prefs.d),
+			}))
+		},
+		setScoreBox(rowIndex, boxIndex, isChecked) {
+			setState(prev => ({
+				...prev,
+				board: {
+					...prev.board,
+					scores: prev.board.scores.map((row, r) => {
+						if (r !== rowIndex) return row
+
+						if (boxIndex === 10) return row.slice(0, -2).concat([isChecked, isChecked])
+						if (boxIndex === 11 && !isChecked) return row.slice(0, -2).concat([false, false])
+
+						return row.map((value, b) => {
+							if (b !== boxIndex) return value
+
+							return isChecked
+						})
+					}),
+				},
 			}))
 		},
 		toggleCheck(rowIndex, boxIndex) {

@@ -1,3 +1,5 @@
+import { ReactNode } from 'react'
+
 export type DieFaces = 6 | 8;
 export type ColorScheme = 'light' | 'dark' | 'auto';
 export type ColorOption = 'red' | 'yellow' | 'green' | 'blue';
@@ -33,9 +35,18 @@ export type AppState = UserState & {
 	game: GameState;
 }
 
-export type UserActions = {
+export type AppActions = {
 	resetBoard: () => void;
+	setScoreBox: (rowIndex: number, boxIndex: number, isChecked: boolean) => void;
 	toggleMenu: (isMenuOpen: boolean) => void;
 	setPref: <K extends keyof Prefs>(pref: K, value: Prefs[K]) => void;
 	setColor: (index: number, color: ColorOption) => void;
+}
+
+export type CheckboxProps = {
+	isChecked?: boolean;
+	isDisabled?: boolean;
+	isDiscouraged?: boolean;
+	label?: ReactNode;
+	onChange: (isChecked: boolean) => void;
 }

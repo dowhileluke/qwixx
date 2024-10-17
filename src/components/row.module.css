@@ -1,5 +1,19 @@
 .row {
-	display: inline-flex;
-	align-items: center;
 	gap: var(--gap);
+	padding: var(--gap);
+	background-color: var(--color);
+	flex-wrap: wrap;
+}
+
+.group {
+	gap: var(--gap);
+}
+
+.outline {
+	border-radius: 4px;
+	outline: 2px dashed black;
+}
+
+.red {
+	--color: red;
 }
