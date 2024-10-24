@@ -6,7 +6,7 @@ import classes from './checkbox.module.css'
 // const X_CLASS = `${classes.box} ${classes.}`
 
 export function Checkbox({
-	isChecked = false, isDisabled = false, isDiscouraged = false, label, onChange,
+	isChecked = false, isDisabled = false, isDiscouraged = false, label, checkedIcon, onChange,
 }: CheckboxProps) {
 	return (
 		<label
@@ -20,7 +20,7 @@ export function Checkbox({
 					<Prohibit className={isChecked ? '' : classes.half} />
 				) : (
 					isChecked && (
-						<X weight="bold" />
+						checkedIcon ?? <X weight="bold" />
 					)
 				)}
 			</div>

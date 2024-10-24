@@ -1,7 +1,7 @@
-import { useAppContext } from './use-app-context'
+import { useAppState } from './use-app-state'
 
 export function useBoardState() {
-	const [{ board }, actions] = useAppContext()
+	const [{ board }, actions] = useAppState()
 
 	return [board, actions] as const
 }
