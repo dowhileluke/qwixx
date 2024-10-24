@@ -1,22 +1,70 @@
-import { InputState } from '../types'
+import { split } from '@dowhileluke/fns'
+import { BoardState, DieFaces, Row, UserState } from '../types'
+
+type EncodedState = {
+	board: string;
+}
 
 const PERSIST_KEY = 'q-state'
 
-function encode(state: InputState) {
-	return `${state.scores.map(row => row.join('')).join(',')};${state.skips.join('')}`
+function toDigit(b: boolean) {
+	return b ? '1' : '0'
 }
 
-function decode(str: string) {
-	const [scoreStr, skipStr] = str.split(';')
-	const result: InputState = {
-		scores: scoreStr.split(',').map(row => row.split('').map(Number)),
-		skips: skipStr.split('').map(Number),
+export function encodeRow({ boxes, isLocked }: Row) {
+	return toDigit(isLocked) + boxes.map(isChecked => toDigit(isChecked)).join('')
+}
+
+export function encodeBoard({ d, scores, skips }: BoardState) {
+	const encodedScores = scores.map(s => encodeRow(s)).join(',')
+
+	return [d, encodedScores, encodeRow(skips)].join(';')
+}
+
+function encode(state: UserState) {
+	return JSON.stringify({ board: encodeBoard(state.board), })
+}
+
+function fromDigit(s: string) {
+	return s !== '0'
+}
+
+function decodeRow(s: string) {
+	const [lockDigit, boxDigits] = split(s, 1)
+
+	const result: Row = {
+		boxes: boxDigits.split('').map(d => fromDigit(d)),
+		isLocked: fromDigit(lockDigit),
 	}
 
 	return result
 }
 
-export function setPersistedState(state: InputState) {
+export function decodeBoard(board: string) {
+	const [encodedD, encodedScores, encodedSkips] = board.split(';')
+	const scores = encodedScores.split(',').map(row => decodeRow(row))
+
+	const result: BoardState = {
+		d: Number(encodedD) as DieFaces,
+		scores,
+		skips: decodeRow(encodedSkips),
+	}
+
+	return result
+}
+
+function decode(str: string) {
+	const encoded = JSON.parse(str) as EncodedState
+	const board = decodeBoard(encoded.board)
+	const result: UserState = {
+		board,
+		isMenuOpen: false,
+	}
+
+	return result
+}
+
+export function setPersistedState(state: UserState) {
 	localStorage.setItem(PERSIST_KEY, encode(state))
 }
 

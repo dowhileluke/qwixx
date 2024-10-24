@@ -1,15 +1,22 @@
 import { Dispatch, SetStateAction, useMemo, useState } from 'react'
 import { generateArray } from '@dowhileluke/fns'
-import { toGameState } from '../functions/to-game-state'
-import { AppState, BoardState, DieFaces, AppActions, UserState } from '../types'
-import { LENGTHS } from '../const'
-import { getMinimumIndex } from '../functions/get-minimum-index'
+import { toCalculations } from '../functions/to-calculations'
+import { AppState, BoardState, DieFaces, AppActions, UserState, Row } from '../types'
+
+function createEmptyRow(d: DieFaces) {
+	const result: Row = {
+		boxes: generateArray(2 * d - 1, () => false),
+		isLocked: false,
+	}
+
+	return result
+}
 
 function createInitialBoardState(d: DieFaces) {
 	const result: BoardState = {
 		d,
-		scores: generateArray(4, () => generateArray(2 * d, () => false)),
-		skips: generateArray(4, () => false),
+		scores: generateArray(4, () => createEmptyRow(d)),
+		skips: createEmptyRow(d),
 	}
 
 	return result
@@ -19,11 +26,38 @@ function createInitialUserState() {
 	const result: UserState = {
 		isMenuOpen: false,
 		board: createInitialBoardState(6),
-		prefs: {
-			boardColors: ['red', 'yellow', 'green', 'blue'],
-			colorScheme: 'auto',
-			d: 6,
-		},
+	}
+
+	return result
+}
+
+function updateRow(row: Row, boxIndex: number, isChecked: boolean) {
+	if (boxIndex < 0) {
+		const result: Row = {
+			...row,
+			isLocked: isChecked,
+		}
+
+		return result
+	}
+
+	const result: Row = {
+		...row,
+		boxes: row.boxes.map((box, index) => index === boxIndex ? isChecked : box),
+	}
+	
+	return result
+}
+
+function updateBoard(board: BoardState, rowIndex: number, boxIndex: number, isChecked: boolean) {
+	const result = { ...board }
+
+	if (rowIndex < 0) {
+		result.skips = updateRow(board.skips, boxIndex, isChecked)
+	} else {
+		result.scores = board.scores.map((row, index) => (
+			index === rowIndex ? updateRow(row, boxIndex, isChecked) : row
+		))
 	}
 
 	return result
@@ -35,72 +69,58 @@ function createAppActions(setState: Dispatch<SetStateAction<UserState>>) {
 			setState(prev => ({
 				...prev,
 				isMenuOpen: false,
-				board: createInitialBoardState(prev.prefs.d),
+				board: createInitialBoardState(prev.board.d),
 			}))
 		},
-		setScoreBox(rowIndex, boxIndex, isChecked) {
+		setBox(rowIndex, boxIndex, isChecked) {
 			setState(prev => ({
 				...prev,
-				board: {
-					...prev.board,
-					scores: prev.board.scores.map((row, r) => {
-						if (r !== rowIndex) return row
-
-						if (boxIndex === 10) return row.slice(0, -2).concat([isChecked, isChecked])
-						if (boxIndex === 11 && !isChecked) return row.slice(0, -2).concat([false, false])
-
-						return row.map((value, b) => {
-							if (b !== boxIndex) return value
-
-							return isChecked
-						})
-					}),
-				},
+				board: updateBoard(prev.board, rowIndex, boxIndex, isChecked),
 			}))
 		},
-		toggleCheck(rowIndex, boxIndex) {
-			setState(prev => {
-				const row = prev.board.scores[rowIndex]
-				const minIndex = getMinimumIndex(row)
-				const lastIndex = row.length - LENGTHS[prev.board.d]
-				const boxIsChecked = row[boxIndex]
-				const isUnlocking =  boxIsChecked && boxIndex === 0
+		// toggleCheck(rowIndex, boxIndex) {
+		// 	setState(prev => {
+		// 		const row = prev.board.scores[rowIndex]
+		// 		const minIndex = getMinimumIndex(row)
+		// 		const lastIndex = row.length - LENGTHS[prev.board.d]
+		// 		const boxIsChecked = row[boxIndex]
+		// 		const isUnlocking =  boxIsChecked && boxIndex === 0
 
-				// bail early if box has been passed
-				if (!boxIsChecked && boxIndex < minIndex) return prev
+		// 		// bail early if box has been passed
+		// 		if (!boxIsChecked && boxIndex < minIndex) return prev
 
-				const result: UserState = {
-					...prev,
-					board: {
-						...prev.board,
-						scores: prev.board.scores.map((row, r) => {
-							if (r !== rowIndex) return row
+		// 		const result: UserState = {
+		// 			...prev,
+		// 			board: {
+		// 				...prev.board,
+		// 				scores: prev.board.scores.map((row, r) => {
+		// 					if (r !== rowIndex) return row
 
-							return row.map((isChecked, i) => {
-								if (isUnlocking && (i === 0 || i >= lastIndex)) return false
-								if (i !== boxIndex) return isChecked
+		// 					return row.map((isChecked, i) => {
+		// 						if (isUnlocking && (i === 0 || i >= lastIndex)) return false
+		// 						if (i !== boxIndex) return isChecked
 
-								return !isChecked
-							})
-						})
-					},
-				}
+		// 						return !isChecked
+		// 					})
+		// 				})
+		// 			},
+		// 		}
 
-				return result
-			})
-		},
+		// 		return result
+		// 	})
+		// },
 		toggleMenu(isMenuOpen) {
 			setState(prev => ({ ...prev, isMenuOpen, }))
 		},
-		setPref(pref, value) {
-			setState(prev => ({
-				...prev,
-				prefs: {
-					...prev.prefs,
-					[pref]: value,
-				},
-			}))
-		},
+		// setPref(pref, value) {
+		// 	setState(prev => ({
+		// 		...prev,
+		// 		prefs: {
+		// 			...prev.prefs,
+		// 			[pref]: value,
+		// 		},
+		// 	}))
+		// },
 	}
 
 	return result
@@ -108,9 +128,9 @@ function createAppActions(setState: Dispatch<SetStateAction<UserState>>) {
 
 export function useAppState(initialState: UserState | null) {
 	const [state, setState] = useState(() => initialState ?? createInitialUserState())
-	const [actions] = useState(() => createAppActions(setState))
-	const game = useMemo(() => toGameState(state.board), [state.board])
-	const finalState = useMemo((): AppState => ({ ...state, game, }), [state, game])
+	const [actions] = useState(() => createAppActions(setState)) // use forever
+	const calcs = useMemo(() => toCalculations(state.board), [state.board])
+	const finalState = useMemo((): AppState => ({ ...state, calcs, }), [state, calcs])
 
 	return [finalState, actions] as const
 }
