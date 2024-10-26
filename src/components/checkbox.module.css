@@ -1,5 +1,5 @@
 .disabled {
-	opacity: 0.67;
+	opacity: 0.5;
 }
 
 .half {
@@ -37,8 +37,8 @@
 
 .label {
 	z-index: 1;
-	background-color: rgba(255, 255, 255, 0.6);
-	border-radius: 0.3em;
+	background-color: rgba(255, 255, 255, 0.75);
+	border-radius: var(--radius);
 }
 
 .slot input {

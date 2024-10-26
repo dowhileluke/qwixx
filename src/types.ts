@@ -52,5 +52,5 @@ export type CheckboxProps = {
 	isDiscouraged?: boolean;
 	label?: ReactNode;
 	checkedIcon?: ReactNode;
-	onChange: (isChecked: boolean) => void;
+	onChange?: (isChecked: boolean) => void;
 }

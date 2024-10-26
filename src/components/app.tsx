@@ -1,21 +1,24 @@
-// import { useState } from 'react'
-import { AppProvider } from './app-provider'
-// import { Board } from './board'
-// import { Flipper } from './flipper'
-import { Row } from './row'
+import { generateArray } from '@dowhileluke/fns'
+import { COLORS } from '../const'
 import { Center } from './center'
+import { Row } from './row'
+import { Scoreboard } from './scoreboard'
+import { Skips } from './skips'
+
+const rowIndexes = generateArray(4)
 
 export function App() {
-  // const [state, setState] = useState(false)
-
   return (
-    <AppProvider>
-      {/* <Board /> */}
-      {/* <Flipper isChecked={state} onChange={setState} /> */}
+    <Center column className="full-screen xl-gap">
       <Center column>
-        <Row index={0} />
-        <Row index={1} />
+        {rowIndexes.map(n => (
+          <Row key={n} index={n} color={COLORS[n]} direction={n < 2 ? 'asc' : 'desc'} />
+        ))}
       </Center>
-    </AppProvider>
+      <Center className="flex-wrap xl-gap">
+        <Skips />
+        <Scoreboard />
+      </Center>
+    </Center>
   )
 }

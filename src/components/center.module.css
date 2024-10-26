@@ -2,6 +2,12 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	gap: var(--gap);
+}
+
+.in {
+	display: inline-flex;
+	flex-basis: 0;
 }
 
 .col {

@@ -1,0 +1,20 @@
+.score {
+	width: 2em;
+	height: 2em;
+	line-height: 2em;
+	text-align: center;
+	color: var(--x);
+	border: 2px solid var(--color);
+	border-radius: var(--radius);
+}
+
+.final {
+	width: 3em;
+	font-weight: bold;
+}
+
+.reset {
+	cursor: pointer;
+	text-decoration: underline;
+	text-decoration-style: dotted;
+}

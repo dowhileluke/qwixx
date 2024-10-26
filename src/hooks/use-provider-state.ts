@@ -3,9 +3,9 @@ import { generateArray } from '@dowhileluke/fns'
 import { toCalculations } from '../functions/to-calculations'
 import { AppState, BoardState, DieFaces, AppActions, UserState, Row } from '../types'
 
-function createEmptyRow(d: DieFaces) {
+function createEmptyRow(boxCount: number) {
 	const result: Row = {
-		boxes: generateArray(2 * d - 1, () => false),
+		boxes: generateArray(boxCount, () => false),
 		isLocked: false,
 	}
 
@@ -15,8 +15,8 @@ function createEmptyRow(d: DieFaces) {
 function createInitialBoardState(d: DieFaces) {
 	const result: BoardState = {
 		d,
-		scores: generateArray(4, () => createEmptyRow(d)),
-		skips: createEmptyRow(d),
+		scores: generateArray(4, () => createEmptyRow(2 * d - 1)),
+		skips: createEmptyRow(4),
 	}
 
 	return result

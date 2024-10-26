@@ -12,6 +12,7 @@
   -moz-osx-font-smoothing: grayscale;
 
   --gap: 0.25em;
+  --radius: 0.25em;
   --x: black;
 
   --text: black;
@@ -23,7 +24,26 @@ body, #root {
 }
 
 body {
-  margin: 0;
+  margin: 0 var(--gap);
 
   /* color: blue; */
+}
+
+h4 {
+  font-size: 75%;
+  font-weight: normal;
+  margin: 0;
+}
+
+.full-screen {
+  height: 100vh;
+  height: -webkit-fill-available;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.xl-gap {
+  gap: 1em;
 }

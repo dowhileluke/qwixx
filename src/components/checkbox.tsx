@@ -28,7 +28,7 @@ export function Checkbox({
 				type="checkbox"
 				checked={isChecked}
 				disabled={isDisabled}
-				onChange={e => onChange(e.target.checked)}
+				onChange={e => onChange?.(e.target.checked)}
 			/>
 		</label>
 	)
