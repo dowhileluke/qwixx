@@ -11,7 +11,10 @@ type RowDetails = {
 function toRowDetails({ boxes, isLocked }: Row) {
 	let tally = boxes.filter(Boolean).length
 	
-	if (tail(boxes)) tally += 1
+	if (tail(boxes)) {
+		tally += 1
+		isLocked = true
+	}
 
 	const result: RowDetails = {
 		tally,
