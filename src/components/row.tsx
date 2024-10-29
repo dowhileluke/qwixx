@@ -1,6 +1,6 @@
 import { Lock } from '@phosphor-icons/react'
 import { generateArray } from '@dowhileluke/fns'
-import { useBoardState } from '../hooks/use-board-state'
+import { useRowState } from '../functions/use-row-state'
 import { Center } from './center'
 import { CenteredArea } from './centered-area'
 import { Checkbox } from './checkbox'
@@ -16,15 +16,15 @@ const DIGITS_ASC = generateArray(2, 12)
 const DIGITS_DESC = generateArray(12, 2)
 
 export function Row({ index, color, direction }: RowProps) {
-	const [{ scores }, actions] = useBoardState()
+	const [{ boxes, isLocked, isFinished, minimumIndex, isReady, isGameComplete }, actions] = useRowState(index)
 	const digits = direction === 'desc' ? DIGITS_DESC : DIGITS_ASC
-	const { boxes, isLocked } = scores[index]
-	const isRowFinished = boxes[10]
 
 	function getSegment(begin: number, end: number) {
 		return boxes.slice(begin, end).map((isChecked, i) => {
 			const n = begin + i
-			const isDisabled = isLocked || (isRowFinished && n < 10)
+			const isDisabled = isLocked
+				|| (n < minimumIndex)
+				|| (n === 10 ? (!isReady || (isGameComplete && !isChecked)) : (isFinished || isGameComplete))
 
 			return (
 				<Checkbox
@@ -48,7 +48,7 @@ export function Row({ index, color, direction }: RowProps) {
 				<Center className={classes.outline}>
 					{getSegment(10, 11)}
 					<Checkbox
-						isChecked={isLocked || isRowFinished}
+						isChecked={isFinished}
 						onChange={(yes) => actions.setBox(index, -1, yes)}
 						label={isLocked ? null : <Lock />}
 						checkedIcon={isLocked ? <Lock weight="bold" size="0.8em" /> : null}

@@ -1,10 +1,8 @@
-import { ReactNode } from 'react'
-
 export type DieFaces = 6 | 8;
 export type ColorScheme = 'light' | 'dark' | 'auto';
 export type ColorOption = 'red' | 'yellow' | 'green' | 'blue';
-export type LockableLength = 1 | 2;
-export type RowStatus = 'locked' | 'complete' | false
+// export type LockableLength = 1 | 2;
+// export type RowStatus = 'locked' | 'complete' | false
 export type Row = {
 	boxes: boolean[];
 	isLocked: boolean;
@@ -27,11 +25,17 @@ export type UserState = {
 	// prefs: Prefs;
 	isMenuOpen: boolean;
 }
+export type RowDetails = {
+	tally: number;
+	score: number;
+	isFinished: boolean;
+}
 
 export type Calculations = {
 	// lockableLength: LockableLength;
 	totals: number[];
-	isComplete: boolean;
+	rowDetails: RowDetails[];
+	isGameComplete: boolean;
 }
 
 export type AppState = UserState & {
@@ -44,13 +48,4 @@ export type AppActions = {
 	toggleMenu: (isMenuOpen: boolean) => void;
 	// setPref: <K extends keyof Prefs>(pref: K, value: Prefs[K]) => void;
 	// setColor: (index: number, color: ColorOption) => void;
-}
-
-export type CheckboxProps = {
-	isChecked?: boolean;
-	isDisabled?: boolean;
-	isDiscouraged?: boolean;
-	label?: ReactNode;
-	checkedIcon?: ReactNode;
-	onChange?: (isChecked: boolean) => void;
 }

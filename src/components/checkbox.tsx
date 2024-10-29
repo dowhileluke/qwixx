@@ -1,12 +1,18 @@
+import { ReactNode } from 'react'
 import { Prohibit, X } from '@phosphor-icons/react'
-import { CheckboxProps } from '../types'
 import { concat } from '../functions/concat'
 import classes from './checkbox.module.css'
 
-// const X_CLASS = `${classes.box} ${classes.}`
+type CheckboxProps = {
+	isChecked?: boolean;
+	isDisabled?: boolean;
+	label?: ReactNode;
+	checkedIcon?: ReactNode;
+	onChange?: (isChecked: boolean) => void;
+}
 
 export function Checkbox({
-	isChecked = false, isDisabled = false, isDiscouraged = false, label, checkedIcon, onChange,
+	isChecked = false, isDisabled = false, label, checkedIcon, onChange,
 }: CheckboxProps) {
 	return (
 		<label
@@ -16,13 +22,7 @@ export function Checkbox({
 				{label}
 			</div>
 			<div className={classes.x}>
-				{isDiscouraged ? (
-					<Prohibit className={isChecked ? '' : classes.half} />
-				) : (
-					isChecked && (
-						checkedIcon ?? <X weight="bold" />
-					)
-				)}
+				{isChecked && (checkedIcon ?? <X weight="bold" />)}
 			</div>
 			<input
 				type="checkbox"

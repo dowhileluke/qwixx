@@ -1,25 +1,20 @@
 import { sum, tail } from '@dowhileluke/fns'
-import { BoardState, Calculations, Row } from '../types'
+import { BoardState, Calculations, Row, RowDetails } from '../types'
 import { toScore } from './to-score'
 
-type RowDetails = {
-	tally: number;
-	score: number;
-	isLocked: boolean;
-}
-
 function toRowDetails({ boxes, isLocked }: Row) {
+	let isFinished = isLocked
 	let tally = boxes.filter(Boolean).length
 	
 	if (tail(boxes)) {
 		tally += 1
-		isLocked = true
+		isFinished = true
 	}
 
 	const result: RowDetails = {
 		tally,
 		score: toScore(tally),
-		isLocked,
+		isFinished,
 	}
 
 	return result
@@ -28,9 +23,9 @@ function toRowDetails({ boxes, isLocked }: Row) {
 export function toCalculations({ scores, skips }: BoardState) {
 	const rowDetails = scores.map(row => toRowDetails(row))
 
-	const lockCount = rowDetails.filter(r => r.isLocked).length
+	const finishedCount = rowDetails.filter(r => r.isFinished).length
 	const skipCount = skips.boxes.filter(Boolean).length
-	const isComplete = lockCount > 1 || skipCount >= skips.boxes.length
+	const isGameComplete = finishedCount > 1 || skipCount >= skips.boxes.length
 
 	const scoreList = rowDetails.map(r => r.score)
 	const penalty = -5 * skipCount
@@ -38,7 +33,8 @@ export function toCalculations({ scores, skips }: BoardState) {
 
 	const result: Calculations = {
 		totals: [...scoreList, penalty, total],
-		isComplete,
+		rowDetails,
+		isGameComplete,
 	}
 
 	return result
