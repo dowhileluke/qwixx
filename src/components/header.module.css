@@ -1,0 +1,19 @@
+.grid {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 0 var(--gap) 1px;
+	display: grid;
+	grid-template-columns: 2fr 1fr 2fr;
+}
+
+.grid > :nth-child(2) {
+	text-align: center;
+}
+
+.grid > :last-child {
+	text-align: right;
+}
+
+.grid > :last-child span {
+	padding: 0 var(--gap);
+}

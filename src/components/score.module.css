@@ -12,9 +12,3 @@
 	width: 3em;
 	font-weight: bold;
 }
-
-.reset {
-	cursor: pointer;
-	text-decoration: underline;
-	text-decoration-style: dotted;
-}

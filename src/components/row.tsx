@@ -4,7 +4,6 @@ import { useRowState } from '../functions/use-row-state'
 import { Center } from './center'
 import { CenteredArea } from './centered-area'
 import { Checkbox } from './checkbox'
-import classes from './row.module.css'
 
 type RowProps = {
 	index: number;
@@ -45,7 +44,7 @@ export function Row({ index, color, direction }: RowProps) {
 			</Center>
 			<Center>
 				{getSegment(6, 10)}
-				<Center className={classes.outline}>
+				<Center className="dash">
 					{getSegment(10, 11)}
 					<Checkbox
 						isChecked={isFinished}

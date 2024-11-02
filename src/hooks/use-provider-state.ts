@@ -25,6 +25,7 @@ function createInitialBoardState(d: DieFaces) {
 function createInitialUserState() {
 	const result: UserState = {
 		isMenuOpen: false,
+		isQrCodeVisible: false,
 		board: createInitialBoardState(6),
 	}
 
@@ -113,6 +114,9 @@ function createAppActions(setState: Dispatch<SetStateAction<UserState>>) {
 		// },
 		toggleMenu(isMenuOpen) {
 			setState(prev => ({ ...prev, isMenuOpen, }))
+		},
+		toggleQrCode(isQrCodeVisible) {
+			setState(prev => ({ ...prev, isQrCodeVisible, }))
 		},
 		// setPref(pref, value) {
 		// 	setState(prev => ({

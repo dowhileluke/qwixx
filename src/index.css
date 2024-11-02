@@ -19,6 +19,19 @@
   --body: white;
 }
 
+@media (max-height: 300px) {
+  :root {
+    font-size: 16px;
+  }
+}
+
+
+@media (min-width: 600px) and (min-height: 420px) {
+  :root {
+    font-size: 24px;
+  }
+}
+
 body, #root {
   height: 100%;
   touch-action: none;
@@ -26,8 +39,11 @@ body, #root {
 
 body {
   margin: 0 var(--gap);
+}
 
-  /* color: blue; */
+#root {
+  display: grid;
+  justify-content: center;
 }
 
 h4 {
@@ -39,6 +55,7 @@ h4 {
 .full-screen {
   height: 100vh;
   height: -webkit-fill-available;
+  overflow: hidden;
 }
 
 .flex-wrap {
@@ -47,4 +64,15 @@ h4 {
 
 .xl-gap {
   gap: 1em;
+}
+
+.dash {
+	border-radius: 4px;
+	outline: 2px dashed black;
+}
+
+.action {
+	cursor: pointer;
+	text-decoration: underline;
+	text-decoration-style: dotted;
 }
