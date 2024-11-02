@@ -28,8 +28,8 @@ export function toCalculations({ scores, skips }: BoardState) {
 	const isGameComplete = finishedCount > 1 || skipCount >= skips.boxes.length
 
 	const scoreList = rowDetails.map(r => r.score)
-	const penalty = -5 * skipCount
-	const total = sum(scoreList) + penalty
+	const penalty = 5 * skipCount
+	const total = sum(scoreList) - penalty
 
 	const result: Calculations = {
 		totals: [...scoreList, penalty, total],

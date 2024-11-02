@@ -1,4 +1,5 @@
 .score {
+	box-sizing: border-box;
 	width: 2em;
 	height: 2em;
 	line-height: 2em;
@@ -9,6 +10,6 @@
 }
 
 .final {
-	width: 3em;
+	width: 2.5em;
 	font-weight: bold;
 }

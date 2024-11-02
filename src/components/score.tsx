@@ -14,7 +14,7 @@ export function Score({ value, color, final = false, }: ScoreProps) {
 	
 	return (
 		<Center className={concat(classes.score, final && classes.final)} style={colorStyle}>
-			{/* {value > 0 ? '+' + value : value} */}
+			{/* {value > 0 && !final ? '+' + value : value} */}
 			{value}
 		</Center>
 	)

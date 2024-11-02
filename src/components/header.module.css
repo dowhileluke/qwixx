@@ -1,9 +1,12 @@
 .grid {
 	box-sizing: border-box;
 	width: 100%;
-	padding: 0 var(--gap) 1px;
 	display: grid;
-	grid-template-columns: 2fr 1fr 2fr;
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.grid > :first-child {
+	justify-content: left;
 }
 
 .grid > :nth-child(2) {
@@ -12,6 +15,7 @@
 
 .grid > :last-child {
 	text-align: right;
+	margin: 0 var(--gap) 1px;
 }
 
 .grid > :last-child span {
