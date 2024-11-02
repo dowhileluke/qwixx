@@ -1,7 +1,8 @@
-import { Dispatch, SetStateAction, useMemo, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react'
 import { generateArray } from '@dowhileluke/fns'
 import { toCalculations } from '../functions/to-calculations'
 import { AppState, BoardState, DieFaces, AppActions, UserState, Row } from '../types'
+import { getPersistedState, setPersistedState } from '../functions/persist'
 
 function createEmptyRow(boxCount: number) {
 	const result: Row = {
@@ -132,11 +133,18 @@ function createAppActions(setState: Dispatch<SetStateAction<UserState>>) {
 	return result
 }
 
-export function useProviderState(initialState: UserState | null) {
+
+const initialState = getPersistedState()
+
+export function useProviderState() {
 	const [state, setState] = useState(() => initialState ?? createInitialUserState())
 	const [actions] = useState(() => createAppActions(setState)) // use forever
 	const calcs = useMemo(() => toCalculations(state.board), [state.board])
 	const finalState = useMemo((): AppState => ({ ...state, calcs, }), [state, calcs])
+
+	useEffect(() => {
+		setPersistedState(state)
+	}, [state])
 
 	return [finalState, actions] as const
 }

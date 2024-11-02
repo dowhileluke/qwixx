@@ -59,6 +59,7 @@ function decode(str: string) {
 	const result: UserState = {
 		board,
 		isMenuOpen: false,
+		isQrCodeVisible: false,
 	}
 
 	return result
