@@ -1,8 +1,8 @@
-import { QrCode } from '@phosphor-icons/react'
-import classes from './header.module.css'
-import { Center } from './center'
-import { useAppState } from '../hooks/use-app-state'
 import { SyntheticEvent } from 'react'
+import { QrCode } from '@phosphor-icons/react'
+import { useAppState } from '../hooks/use-app-state'
+import { Center } from './center'
+import classes from './header.module.css'
 
 export function Header() {
 	const [, { toggleQrCode }] = useAppState()
