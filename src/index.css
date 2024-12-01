@@ -13,10 +13,22 @@
 
   --gap: 0.25em;
   --radius: 0.25em;
-  --x: black;
 
-  --text: black;
-  --body: white;
+  --rgb-white: 255, 255, 255;
+  --rgb-black: 0, 0, 0;
+  --rgb-body: var(--rgb-white);
+  --rgb-text: var(--rgb-black);
+
+  --body: rgba(var(--rgb-body), 1);
+  --text: rgba(var(--rgb-text), 1);
+  --x: var(--text);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+    --rgb-body: var(--rgb-black);
+    --rgb-text: var(--rgb-white);
+	}
 }
 
 @media (max-height: 300px) {
@@ -24,7 +36,6 @@
     font-size: 16px;
   }
 }
-
 
 @media (min-width: 600px) and (min-height: 420px) {
   :root {
@@ -68,7 +79,7 @@ h4 {
 
 .dash {
 	border-radius: 4px;
-	outline: 2px dashed black;
+	outline: 2px dashed var(--text);
 }
 
 .action {

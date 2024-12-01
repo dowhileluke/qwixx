@@ -4,7 +4,7 @@ import { Center } from './center'
 import { CenteredArea } from './centered-area'
 import { Score } from './score'
 
-const scoreColors = COLORS.concat('black')
+const scoreColors = COLORS.concat('var(--text)')
 const symbols: Record<number, string> = {
 	0: '+',
 	1: '+',
@@ -15,19 +15,19 @@ const symbols: Record<number, string> = {
 
 export function Scoreboard() {
 	const [{ calcs }, actions] = useAppState()
-	const label = calcs.isGameComplete ? 'Final Score \u2014' : 'Current Score'
+	const label = calcs.isGameComplete ? 'Final Score' : 'Current Score'
 
 	function handleReset() {
-		if (confirm('Clear this scoresheet?')) {
+		if (confirm('Reset this scoresheet?')) {
 			actions.resetBoard()
 		}
 	}
 
-	const resetter = (<span className="action" onClick={handleReset}>New Game?</span>)
+	const resetter = (<span className="action" onClick={handleReset}>Reset</span>)
 
 	return (
 		<Center column>
-			<h4>{label} {calcs.isGameComplete && resetter}</h4>
+			<h4>{label} ({resetter})</h4>
 			<CenteredArea>
 				{calcs.totals.map((v, i) => (
 					<>
