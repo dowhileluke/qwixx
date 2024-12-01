@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import { COLORS } from '../const'
 import { useAppState } from '../hooks/use-app-state'
 import { Center } from './center'
@@ -30,10 +31,10 @@ export function Scoreboard() {
 			<h4>{label} ({resetter})</h4>
 			<CenteredArea>
 				{calcs.totals.map((v, i) => (
-					<>
+					<Fragment key={i}>
 						<Score value={v} color={scoreColors[i]} final={i === 5} />
 						{symbols[i]}
-					</>
+					</Fragment>
 				))}
 			</CenteredArea>
 		</Center>
