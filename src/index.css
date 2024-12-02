@@ -24,8 +24,13 @@
   --x: var(--text);
 }
 
+:root.dark {
+  --rgb-body: var(--rgb-black);
+  --rgb-text: var(--rgb-white);
+}
+
 @media (prefers-color-scheme: dark) {
-	:root {
+	:root.auto, :root.dark {
     --rgb-body: var(--rgb-black);
     --rgb-text: var(--rgb-white);
 	}
@@ -46,10 +51,11 @@
 body, #root {
   height: 100%;
   touch-action: none;
-  background-color: var(--body);
 }
 
 body {
+  color: var(--text);
+  background-color: var(--body);
   margin: 0 var(--gap);
 }
 

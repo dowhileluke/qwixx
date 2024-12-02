@@ -1,8 +1,9 @@
 import { split } from '@dowhileluke/fns'
-import { BoardState, DieFaces, Row, UserState } from '../types'
+import { BoardState, DieFaces, Prefs, Row, UserState } from '../types'
 
 type EncodedState = {
 	board: string;
+	prefs: Prefs;
 }
 
 const PERSIST_KEY = 'q-state'
@@ -21,8 +22,8 @@ export function encodeBoard({ d, scores, skips }: BoardState) {
 	return [d, encodedScores, encodeRow(skips)].join(';')
 }
 
-function encode(state: UserState) {
-	return JSON.stringify({ board: encodeBoard(state.board), })
+function encode({ board, prefs }: UserState) {
+	return JSON.stringify({ board: encodeBoard(board), prefs })
 }
 
 function fromDigit(s: string) {
@@ -60,6 +61,7 @@ function decode(str: string) {
 		board,
 		isMenuOpen: false,
 		isQrCodeVisible: false,
+		prefs: encoded.prefs ?? { colorScheme: 'auto', },
 	}
 
 	return result

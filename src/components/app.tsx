@@ -1,3 +1,4 @@
+import { useLayoutEffect } from 'react'
 import { generateArray } from '@dowhileluke/fns'
 import { COLORS } from '../const'
 import { useAppState } from '../hooks/use-app-state'
@@ -11,7 +12,12 @@ import { Skips } from './skips'
 const rowIndexes = generateArray(4)
 
 export function App() {
-  const [{ isQrCodeVisible }] = useAppState()
+  const [{ isQrCodeVisible, prefs }] = useAppState()
+  const { colorScheme } = prefs
+
+  useLayoutEffect(() => {
+    document.documentElement.className = colorScheme
+  }, [colorScheme])
 
   return (
     <Center column className="full-screen xl-gap">

@@ -28,6 +28,9 @@ function createInitialUserState() {
 		isMenuOpen: false,
 		isQrCodeVisible: false,
 		board: createInitialBoardState(6),
+		prefs: {
+			colorScheme: 'auto',
+		},
 	}
 
 	return result
@@ -119,15 +122,15 @@ function createAppActions(setState: Dispatch<SetStateAction<UserState>>) {
 		toggleQrCode(isQrCodeVisible) {
 			setState(prev => ({ ...prev, isQrCodeVisible, }))
 		},
-		// setPref(pref, value) {
-		// 	setState(prev => ({
-		// 		...prev,
-		// 		prefs: {
-		// 			...prev.prefs,
-		// 			[pref]: value,
-		// 		},
-		// 	}))
-		// },
+		setPref(pref, value) {
+			setState(prev => prev.prefs[pref] === value ? prev : ({
+				...prev,
+				prefs: {
+					...prev.prefs,
+					[pref]: value,
+				},
+			}))
+		},
 	}
 
 	return result

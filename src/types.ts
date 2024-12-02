@@ -1,6 +1,6 @@
 export type DieFaces = 6 | 8;
 export type ColorScheme = 'light' | 'dark' | 'auto';
-export type ColorOption = 'red' | 'yellow' | 'green' | 'blue';
+export type ColorOption = 'red' | 'gold' | 'green' | 'blue';
 // export type LockableLength = 1 | 2;
 // export type RowStatus = 'locked' | 'complete' | false
 export type Row = {
@@ -15,17 +15,18 @@ export type BoardState = {
 }
 
 export type Prefs = {
-	d: DieFaces;
+	// d: DieFaces;
 	colorScheme: ColorScheme;
-	boardColors: ColorOption[];
+	// boardColors: ColorOption[];
 }
 
 export type UserState = {
 	board: BoardState;
-	// prefs: Prefs;
+	prefs: Prefs;
 	isMenuOpen: boolean;
 	isQrCodeVisible: boolean;
 }
+
 export type RowDetails = {
 	tally: number;
 	score: number;
@@ -48,6 +49,6 @@ export type AppActions = {
 	setBox: (rowIndex: number, boxIndex: number, isChecked: boolean) => void;
 	toggleMenu: (isMenuOpen: boolean) => void;
 	toggleQrCode: (isQrCodeVisible: boolean) => void;
-	// setPref: <K extends keyof Prefs>(pref: K, value: Prefs[K]) => void;
+	setPref: <K extends keyof Prefs>(pref: K, value: Prefs[K]) => void;
 	// setColor: (index: number, color: ColorOption) => void;
 }
