@@ -17,6 +17,10 @@ const SCHEMES: LabeledScheme[] = [
 export function QrCode() {
 	const [{ prefs }, { toggleQrCode, setPref }] = useAppState()
 
+	function toggleOff() {
+		toggleQrCode(false)
+	}
+
 	function handleScheme(e: SyntheticEvent, s: ColorScheme) {
 		e.stopPropagation()
 
@@ -24,7 +28,7 @@ export function QrCode() {
 	}
 
 	return (
-		<Center column className="xl-gap" onClick={() => toggleQrCode(false)}>
+		<Center column className="xl-gap">
 			<div>
 				{SCHEMES.map(({ label, scheme }, i) => {
 					const isCurrent = scheme === prefs.colorScheme
@@ -32,15 +36,17 @@ export function QrCode() {
 					return (
 						<Fragment key={i}>
 							{i ? ' / ' : ''}
-							<span className={isCurrent ? '' : 'action'} onClick={e => handleScheme(e, scheme)}>
-								{label}
-							</span>
+							{isCurrent ? label : (
+								<span className="action" onClick={e => handleScheme(e, scheme)}>
+									{label}
+								</span>
+							)}
 						</Fragment>
 					)
 				})}
 			</div>
-			<img src="qr.png" alt="QR Code" />
-			<span className="action">Done</span>
+			<img src="qr.png" alt="QR Code" onClick={toggleOff} />
+			<span className="action" onClick={toggleOff}>Done</span>
 		</Center>
 	)
 }
