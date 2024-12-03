@@ -29,11 +29,19 @@
   --rgb-text: var(--rgb-white);
 }
 
+:root.dark img {
+  filter: invert();
+}
+
 @media (prefers-color-scheme: dark) {
 	:root.auto, :root.dark {
     --rgb-body: var(--rgb-black);
     --rgb-text: var(--rgb-white);
 	}
+
+  :root.auto img {
+    filter: invert();
+  }
 }
 
 @media (max-height: 300px) {
